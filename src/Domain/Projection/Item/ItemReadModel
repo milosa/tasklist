@@ -1,0 +1,48 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Milosa\TaskList\Domain\Projection\Item;
+
+use Doctrine\DBAL\Connection;
+use Doctrine\Dbal\Schema\Table;
+use Prooph\EventStore\Projection\AbstractReadModel;
+
+final class ItemReadModel extends AbstractReadModel
+{
+    /**
+     * @var Connection
+     */
+    private $connection;
+
+    public function __construct(Connection $connection)
+    {
+        $this->connection = $connection;
+    }
+
+    public function init(): void
+    {
+        $table = new Table('read_item');
+        $table->addColumn('id', 'string', array('length' => 36));
+        $table->addColumn('title', 'text');
+        $table->addColumn('description', 'text');
+        $table->setPrimaryKey('id');
+
+        $this->connection->getSchemaManager()->createTable($table);
+    }
+
+    public function isInitialized(): bool
+    {
+        return $this->connection->getSchemaManager()->tablesExist(array('read_item'));
+    }
+
+    public function reset(): void
+    {
+        // TODO: Implement reset() method.
+    }
+
+    public function delete(): void
+    {
+        // TODO: Implement delete() method.
+    }
+}
