@@ -27,7 +27,7 @@ class ItemTest extends TestCase
      */
     public function testCreatingItemWithEmptyDescriptionThrowsException()
     {
-        Item::create('test', '');
+        Item::create('testt', '');
     }
 
     private function assertItem(string $title, string $description): void
